@@ -2,149 +2,80 @@ import * as Tone from "tone";
 
 
 // =====================
-// MASTER
+// GLOBAL EFFECTS
 // =====================
 
-const master =
-new Tone.Gain(0.9)
+export const reverb =
+new Tone.Reverb({
+
+    decay:5,
+
+    wet:0.5
+
+});
+
+
+export const delay =
+new Tone.PingPongDelay({
+
+    delayTime:"8n",
+
+    feedback:0.3,
+
+    wet:0.3
+
+});
+
+
+export const masterFilter =
+new Tone.Filter({
+
+    frequency:2500,
+
+    type:"lowpass"
+
+});
+
+
+
+// цепочка мастера
+
+masterFilter
+.connect(delay)
+.connect(reverb)
 .toDestination();
 
 
 
 
+
 // =====================
-// DRUMS / RITUAL HIT
+// DRUMS
 // =====================
 
 
-const drumComp =
-new Tone.Compressor({
-
-threshold:-18,
-
-ratio:5
-
-})
-.connect(master);
-
-
-
-const stoneReverb =
-new Tone.Reverb({
-
-decay:1.2,
-
-wet:0.25
-
-})
-.connect(drumComp);
-
-
-
-
-// тело удара
-
-const stoneBody =
+export const kick =
 new Tone.MembraneSynth({
 
-volume:4,
+volume:5,
 
-pitchDecay:0.01,
-
-octaves:2,
-
-
-oscillator:{
-
-type:"sine"
-
-},
-
+pitchDecay:0.05,
 
 envelope:{
 
 attack:0.001,
 
-decay:0.18,
-
-sustain:0,
-
-release:0.1
-
-}
-
-})
-.connect(stoneReverb);
-
-
-
-
-// верхний удар
-
-const stoneImpact =
-new Tone.NoiseSynth({
-
-volume:10,
-
-
-noise:{
-
-type:"white"
-
-},
-
-
-envelope:{
-
-attack:0.001,
-
-decay:0.04,
+decay:0.5,
 
 sustain:0
 
 }
 
 })
-.connect(stoneReverb);
+.connect(masterFilter);
 
 
 
-
-export const kick = {
-
-
-triggerAttackRelease(note,time){
-
-
-stoneBody.triggerAttackRelease(
-
-"C2",
-
-"16n"
-
-);
-
-
-stoneImpact.triggerAttackRelease(
-
-"32n"
-
-);
-
-
-}
-
-};
-
-
-
-
-
-
-
-// =====================
-// EXTRA DRUMS
-// =====================
 
 
 export const snare =
@@ -152,19 +83,18 @@ new Tone.NoiseSynth({
 
 volume:0,
 
-
 envelope:{
 
 attack:0.001,
 
-decay:0.25,
+decay:0.2,
 
 sustain:0
 
 }
 
 })
-.connect(drumComp);
+.connect(masterFilter);
 
 
 
@@ -175,20 +105,10 @@ new Tone.MetalSynth({
 
 volume:-4,
 
-frequency:250,
-
-
-envelope:{
-
-attack:0.001,
-
-decay:0.05
-
-}
+frequency:250
 
 })
-.connect(drumComp);
-
+.connect(masterFilter);
 
 
 
@@ -197,34 +117,8 @@ decay:0.05
 
 
 // =====================
-// EARTH BASS
+// BASS
 // =====================
-
-
-const bassFilter =
-new Tone.Filter({
-
-frequency:600,
-
-type:"lowpass"
-
-});
-
-
-
-const bassDist =
-new Tone.Distortion({
-
-distortion:0.2
-
-});
-
-
-
-bassFilter
-.connect(bassDist)
-.connect(master);
-
 
 
 export const bass =
@@ -246,14 +140,14 @@ attack:0.05,
 
 decay:0.25,
 
-sustain:0.9,
+sustain:0.8,
 
 release:1
 
 }
 
 })
-.connect(bassFilter);
+.connect(masterFilter);
 
 
 
@@ -263,51 +157,8 @@ release:1
 
 
 // =====================
-// SPIRIT PAD
+// PAD
 // =====================
-
-
-const padFilter =
-new Tone.Filter({
-
-frequency:1600,
-
-type:"lowpass"
-
-});
-
-
-
-const padChorus =
-new Tone.Chorus({
-
-frequency:0.8,
-
-depth:0.8,
-
-wet:0.5
-
-})
-.start();
-
-
-
-const padReverb =
-new Tone.Reverb({
-
-decay:10,
-
-wet:0.65
-
-});
-
-
-
-padFilter
-.connect(padChorus)
-.connect(padReverb)
-.connect(master);
-
 
 
 export const pad =
@@ -329,21 +180,16 @@ type:"triangle"
 
 envelope:{
 
-attack:1.5,
+attack:1,
 
-decay:1,
-
-sustain:0.8,
-
-release:4
+release:3
 
 }
 
 }
 
 )
-.connect(padFilter);
-
+.connect(masterFilter);
 
 
 
@@ -352,51 +198,8 @@ release:4
 
 
 // =====================
-// SPELL LEAD
+// LEAD
 // =====================
-
-
-const leadFilter =
-new Tone.Filter({
-
-frequency:3000,
-
-type:"lowpass"
-
-});
-
-
-
-const leadDelay =
-new Tone.PingPongDelay({
-
-delayTime:"8n",
-
-feedback:0.35,
-
-wet:0.35
-
-});
-
-
-
-const leadReverb =
-new Tone.Reverb({
-
-decay:4,
-
-wet:0.35
-
-});
-
-
-
-leadFilter
-.connect(leadDelay)
-.connect(leadReverb)
-.connect(master);
-
-
 
 
 export const lead =
@@ -416,16 +219,12 @@ envelope:{
 
 attack:0.02,
 
-decay:0.25,
-
-sustain:0.45,
-
-release:1.2
+release:1
 
 }
 
 })
-.connect(leadFilter);
+.connect(masterFilter);
 
 
 
@@ -438,41 +237,13 @@ release:1.2
 // =====================
 
 
-const fxReverb =
-new Tone.Reverb({
-
-decay:8,
-
-wet:0.7
-
-})
-.connect(master);
-
-
-
 export const fx =
 new Tone.Synth({
 
-volume:2,
-
-
-oscillator:{
-
-type:"sine"
-
-},
-
-
-envelope:{
-
-attack:0.4,
-
-release:4
-
-}
+volume:2
 
 })
-.connect(fxReverb);
+.connect(masterFilter);
 
 
 
@@ -484,34 +255,6 @@ release:4
 // =====================
 // FIRE
 // =====================
-
-
-const fireFilter =
-new Tone.Filter({
-
-frequency:900,
-
-type:"lowpass"
-
-});
-
-
-
-const fireReverb =
-new Tone.Reverb({
-
-decay:5,
-
-wet:0.4
-
-});
-
-
-
-fireFilter
-.connect(fireReverb)
-.connect(master);
-
 
 
 export const fire =
@@ -531,8 +274,6 @@ envelope:{
 
 attack:1,
 
-decay:1,
-
 sustain:1,
 
 release:2
@@ -540,9 +281,7 @@ release:2
 }
 
 })
-.connect(fireFilter);
-
-
+.connect(masterFilter);
 
 
 
@@ -552,34 +291,6 @@ release:2
 // =====================
 // WIND
 // =====================
-
-
-const windFilter =
-new Tone.Filter({
-
-frequency:1200,
-
-type:"highpass"
-
-});
-
-
-
-const windReverb =
-new Tone.Reverb({
-
-decay:8,
-
-wet:0.7
-
-});
-
-
-
-windFilter
-.connect(windReverb)
-.connect(master);
-
 
 
 export const wind =
@@ -599,8 +310,6 @@ envelope:{
 
 attack:1,
 
-decay:2,
-
 sustain:0.7,
 
 release:3
@@ -608,4 +317,4 @@ release:3
 }
 
 })
-.connect(windFilter);
+.connect(masterFilter);
