@@ -1,12 +1,21 @@
+import { useState } from "react";
+
 import Keyboard from "./components/Keyboard.jsx";
+
 import "./App.css";
 
 
 function App(){
 
+
+const [fire,setFire] = useState(false);
+
+
+
 return(
 
 <div className="app">
+
 
 <h1>
 ALTAR SYNTH
@@ -23,7 +32,12 @@ ALTAR SYNTH
 </p>
 
 
+
 <div className="altar">
+
+
+{
+fire &&
 
 <img
 
@@ -33,14 +47,25 @@ className="fire"
 
 />
 
+}
+
+
 </div>
 
 
-<Keyboard />
+
+
+<Keyboard
+
+setFire={setFire}
+
+/>
+
 
 </div>
 
 )
+
 
 }
 
