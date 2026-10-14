@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import {
 
 kick,
+snare,
+hat,
 bass,
 pad,
 lead,
 fx,
 fire,
-wind,
-snare,
-hat
+wind
 
 } from "../audio/engine.js";
 
@@ -19,23 +19,15 @@ hat
 
 export default function Keyboard({
 
-setFire,
-
-setWind
+setFire
 
 }){
 
 
-const [active,setActive] = useState([]);
+const [active,setActive]=useState([]);
 
 
-const [layers,setLayers] = useState({
-
-fire:false,
-
-wind:false
-
-});
+const [fireOn,setFireOn]=useState(false);
 
 
 
@@ -49,13 +41,11 @@ const keys={
 6:"Bb1",
 
 
-
 7:[
 "C4",
 "Eb4",
 "G4"
 ],
-
 
 
 8:[
@@ -65,60 +55,12 @@ const keys={
 ],
 
 
-
 9:"C5",
 
 0:"Eb5"
 
-};
-
-
-
-
-
-function toggle(name,sound,setter){
-
-
-setLayers(prev=>{
-
-
-const value=!prev[name];
-
-
-if(value){
-
-sound.triggerAttack();
-
-setter(true);
-
-
-}
-
-else{
-
-sound.triggerRelease();
-
-setter(false);
-
-}
-
-
-
-return{
-
-...prev,
-
-[name]:value
 
 };
-
-
-});
-
-
-}
-
-
 
 
 
@@ -127,10 +69,8 @@ return{
 function press(key){
 
 
-
 if(active.includes(key))
 return;
-
 
 
 setActive(prev=>[
@@ -156,11 +96,28 @@ break;
 
 case "2":
 
-toggle(
-"fire",
-fire,
-setFire
-);
+
+const state=!fireOn;
+
+
+setFireOn(state);
+
+setFire(state);
+
+
+
+if(state){
+
+fire.triggerAttack();
+
+}
+
+else{
+
+fire.triggerRelease();
+
+}
+
 
 break;
 
@@ -168,11 +125,7 @@ break;
 
 case "3":
 
-toggle(
-"wind",
-wind,
-setWind
-);
+wind.triggerAttack();
 
 break;
 
@@ -190,7 +143,6 @@ break;
 
 
 
-
 case "7":
 case "8":
 
@@ -199,7 +151,6 @@ keys[key]
 );
 
 break;
-
 
 
 
@@ -231,8 +182,8 @@ break;
 
 
 
-function release(key){
 
+function release(key){
 
 
 setActive(prev=>
@@ -276,10 +227,16 @@ break;
 
 
 
-}
+case "3":
+
+wind.triggerRelease();
+
+break;
+
 
 }
 
+}
 
 
 
@@ -290,9 +247,7 @@ useEffect(()=>{
 
 function down(e){
 
-
 const key=e.key.toLowerCase();
-
 
 
 if(
@@ -310,13 +265,11 @@ if(
 " "
 ]
 .includes(key)
-
 ){
 
 press(key);
 
 }
-
 
 }
 
@@ -347,7 +300,6 @@ up
 
 return()=>{
 
-
 window.removeEventListener(
 "keydown",
 down
@@ -363,7 +315,7 @@ up
 };
 
 
-},[]);
+},[fireOn]);
 
 
 
@@ -374,11 +326,6 @@ up
 return(
 
 <div className="keyboard">
-
-
-<h2>
-RITUAL CONTROLS
-</h2>
 
 
 <div className="buttons">
@@ -419,40 +366,22 @@ release(key)
 
 
 className={
-
 active.includes(key)
-
-||
-(key==="2" && layers.fire)
-
-||
-(key==="3" && layers.wind)
-
 ?
-
 "active"
-
 :
-
 ""
-
 }
 
 
 >
 
 {
-
 key===" "
-
 ?
-
 "FX"
-
 :
-
 key
-
 }
 
 
