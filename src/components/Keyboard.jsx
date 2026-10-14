@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import {
 
 kick,
-snare,
-hat,
 bass,
 pad,
 lead,
 fx,
 fire,
-wind
+wind,
+snare,
+hat
 
 } from "../audio/engine.js";
 
@@ -20,12 +20,14 @@ wind
 export default function Keyboard({
 
 setFire,
+
 setWind
 
 }){
 
 
 const [active,setActive] = useState([]);
+
 
 const [layers,setLayers] = useState({
 
@@ -68,7 +70,6 @@ const keys={
 
 0:"Eb5"
 
-
 };
 
 
@@ -81,17 +82,19 @@ function toggle(name,sound,setter){
 setLayers(prev=>{
 
 
-const state=!prev[name];
+const value=!prev[name];
 
 
-if(state){
+if(value){
 
 sound.triggerAttack();
 
 setter(true);
 
 
-}else{
+}
+
+else{
 
 sound.triggerRelease();
 
@@ -100,11 +103,12 @@ setter(false);
 }
 
 
-return {
+
+return{
 
 ...prev,
 
-[name]:state
+[name]:value
 
 };
 
@@ -123,8 +127,10 @@ return {
 function press(key){
 
 
+
 if(active.includes(key))
 return;
+
 
 
 setActive(prev=>[
@@ -172,11 +178,8 @@ break;
 
 
 
-
 case "4":
-
 case "5":
-
 case "6":
 
 bass.triggerAttack(
@@ -189,7 +192,6 @@ break;
 
 
 case "7":
-
 case "8":
 
 pad.triggerAttack(
@@ -202,7 +204,6 @@ break;
 
 
 case "9":
-
 case "0":
 
 lead.triggerAttack(
@@ -225,14 +226,13 @@ break;
 
 }
 
-
 }
 
 
 
 
-
 function release(key){
+
 
 
 setActive(prev=>
@@ -247,9 +247,7 @@ switch(key){
 
 
 case "4":
-
 case "5":
-
 case "6":
 
 bass.triggerRelease();
@@ -259,7 +257,6 @@ break;
 
 
 case "7":
-
 case "8":
 
 pad.triggerRelease(
@@ -271,7 +268,6 @@ break;
 
 
 case "9":
-
 case "0":
 
 lead.triggerRelease();
@@ -281,7 +277,6 @@ break;
 
 
 }
-
 
 }
 
@@ -295,7 +290,9 @@ useEffect(()=>{
 
 function down(e){
 
+
 const key=e.key.toLowerCase();
+
 
 
 if(
@@ -313,11 +310,13 @@ if(
 " "
 ]
 .includes(key)
+
 ){
 
 press(key);
 
 }
+
 
 }
 
@@ -330,7 +329,6 @@ e.key.toLowerCase()
 );
 
 }
-
 
 
 
@@ -349,6 +347,7 @@ up
 
 return()=>{
 
+
 window.removeEventListener(
 "keydown",
 down
@@ -360,10 +359,13 @@ window.removeEventListener(
 up
 );
 
+
 };
 
 
 },[]);
+
+
 
 
 
@@ -383,6 +385,7 @@ RITUAL CONTROLS
 
 
 {
+
 [
 "1",
 "2",
@@ -396,6 +399,7 @@ RITUAL CONTROLS
 "0",
 " "
 ]
+
 .map(key=>(
 
 
@@ -403,9 +407,11 @@ RITUAL CONTROLS
 
 key={key}
 
+
 onMouseDown={()=>
 press(key)
 }
+
 
 onMouseUp={()=>
 release(key)
@@ -415,14 +421,19 @@ release(key)
 className={
 
 active.includes(key)
+
 ||
 (key==="2" && layers.fire)
+
 ||
 (key==="3" && layers.wind)
 
 ?
+
 "active"
+
 :
+
 ""
 
 }
@@ -433,9 +444,13 @@ active.includes(key)
 {
 
 key===" "
+
 ?
+
 "FX"
+
 :
+
 key
 
 }
@@ -456,6 +471,5 @@ key
 </div>
 
 )
-
 
 }
