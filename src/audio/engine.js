@@ -13,16 +13,16 @@ new Tone.Gain(0.85)
 
 
 // =====================
-// DRUM / RITUAL HIT
+// RITUAL DRUM
 // =====================
 
 
 const drumComp =
 new Tone.Compressor({
 
-threshold:-18,
+threshold:-16,
 
-ratio:5
+ratio:6
 
 })
 .connect(master);
@@ -32,20 +32,22 @@ ratio:5
 export const kick =
 new Tone.MembraneSynth({
 
-volume:0,
+volume:8,
 
-pitchDecay:0.05,
+pitchDecay:0.08,
 
-octaves:5,
+octaves:6,
 
 
 envelope:{
 
 attack:0.001,
 
-decay:0.45,
+decay:0.8,
 
-sustain:0
+sustain:0,
+
+release:0.3
 
 }
 
@@ -59,14 +61,14 @@ sustain:0
 export const snare =
 new Tone.NoiseSynth({
 
-volume:-4,
+volume:-2,
 
 
 envelope:{
 
 attack:0.001,
 
-decay:0.2,
+decay:0.25,
 
 sustain:0
 
@@ -82,7 +84,8 @@ sustain:0
 export const hat =
 new Tone.MetalSynth({
 
-volume:-8,
+volume:-6,
+
 
 frequency:250,
 
@@ -105,7 +108,7 @@ decay:0.05
 
 
 // =====================
-// BASS / EARTH
+// EARTH BASS
 // =====================
 
 
@@ -138,7 +141,7 @@ bassFilter
 export const bass =
 new Tone.MonoSynth({
 
-volume:-2,
+volume:0,
 
 
 oscillator:{
@@ -160,7 +163,6 @@ release:1
 
 }
 
-
 })
 .connect(bassFilter);
 
@@ -170,8 +172,9 @@ release:1
 
 
 
+
 // =====================
-// PAD / SPIRIT
+// SPIRIT PAD
 // =====================
 
 
@@ -218,7 +221,6 @@ padFilter
 
 
 
-
 export const pad =
 new Tone.PolySynth(
 
@@ -226,7 +228,7 @@ Tone.Synth,
 
 {
 
-volume:-7,
+volume:-5,
 
 
 oscillator:{
@@ -260,7 +262,7 @@ release:4
 
 
 // =====================
-// LEAD / SPELL
+// SPELL LEAD
 // =====================
 
 
@@ -306,12 +308,10 @@ leadFilter
 
 
 
-
-
 export const lead =
 new Tone.MonoSynth({
 
-volume:3,
+volume:4,
 
 
 oscillator:{
@@ -321,16 +321,15 @@ type:"triangle"
 },
 
 
-
 envelope:{
 
 attack:0.02,
 
-decay:0.2,
+decay:0.25,
 
 sustain:0.4,
 
-release:1
+release:1.2
 
 }
 
@@ -363,7 +362,7 @@ wet:0.7
 export const fx =
 new Tone.Synth({
 
-volume:-2,
+volume:0,
 
 
 oscillator:{
@@ -423,11 +422,10 @@ fireFilter
 
 
 
-
 export const fire =
 new Tone.NoiseSynth({
 
-volume:5,
+volume:0,
 
 
 noise:{
@@ -439,13 +437,13 @@ type:"pink"
 
 envelope:{
 
-attack:0.05,
+attack:1,
 
-decay:0.5,
+decay:1,
 
-sustain:0.4,
+sustain:1,
 
-release:1
+release:2
 
 }
 
@@ -491,11 +489,10 @@ windFilter
 
 
 
-
 export const wind =
 new Tone.NoiseSynth({
 
-volume:-2,
+volume:-3,
 
 
 noise:{
@@ -511,7 +508,7 @@ attack:1,
 
 decay:2,
 
-sustain:0.6,
+sustain:0.7,
 
 release:3
 
