@@ -11,8 +11,9 @@ new Tone.Gain(0.9)
 
 
 
+
 // =====================
-// DRUMS
+// DRUMS / RITUAL HIT
 // =====================
 
 
@@ -28,40 +29,62 @@ ratio:5
 
 
 
+const stoneReverb =
+new Tone.Reverb({
 
-// РИТУАЛЬНЫЙ БАРАБАН
+decay:1.2,
 
-const ritualBody =
-new Tone.MembraneSynth({
-
-volume:8,
-
-pitchDecay:0.08,
-
-octaves:5,
-
-
-envelope:{
-
-attack:0.001,
-
-decay:0.7,
-
-sustain:0,
-
-release:0.2
-
-}
+wet:0.25
 
 })
 .connect(drumComp);
 
 
 
-const ritualAttack =
+
+// тело удара
+
+const stoneBody =
+new Tone.MembraneSynth({
+
+volume:4,
+
+pitchDecay:0.01,
+
+octaves:2,
+
+
+oscillator:{
+
+type:"sine"
+
+},
+
+
+envelope:{
+
+attack:0.001,
+
+decay:0.18,
+
+sustain:0,
+
+release:0.1
+
+}
+
+})
+.connect(stoneReverb);
+
+
+
+
+// верхний удар
+
+const stoneImpact =
 new Tone.NoiseSynth({
 
-volume:7,
+volume:10,
 
 
 noise:{
@@ -75,14 +98,15 @@ envelope:{
 
 attack:0.001,
 
-decay:0.06,
+decay:0.04,
 
 sustain:0
 
 }
 
 })
-.connect(drumComp);
+.connect(stoneReverb);
+
 
 
 
@@ -91,15 +115,22 @@ export const kick = {
 
 triggerAttackRelease(note,time){
 
-ritualBody.triggerAttackRelease(
-"C1",
-time
+
+stoneBody.triggerAttackRelease(
+
+"C2",
+
+"16n"
+
 );
 
 
-ritualAttack.triggerAttackRelease(
+stoneImpact.triggerAttackRelease(
+
 "32n"
+
 );
+
 
 }
 
@@ -110,7 +141,10 @@ ritualAttack.triggerAttackRelease(
 
 
 
-// SNARE
+
+// =====================
+// EXTRA DRUMS
+// =====================
 
 
 export const snare =
@@ -134,9 +168,6 @@ sustain:0
 
 
 
-
-
-// HAT
 
 
 export const hat =
@@ -395,7 +426,6 @@ release:1.2
 
 })
 .connect(leadFilter);
-
 
 
 
