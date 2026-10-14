@@ -1,58 +1,103 @@
-import * as Tone from 'tone';
-import { useState } from 'react';
+import { useState } from "react";
+import * as Tone from "tone";
 
-import Keyboard from './components/Keyboard.jsx';
+import Keyboard from "./components/Keyboard.jsx";
 
-import fireGif from './assets/fire.gif';
+import "./App.css";
 
-function App() {
-  const [fire, setFire] = useState(false);
 
-  async function start() {
-    await Tone.start();
-  }
+function App(){
 
-  return (
-    <div
-      style={{
-        background: '#080604',
 
-        color: 'white',
+const [fire,setFire] = useState(false);
 
-        minHeight: '100vh',
+const [wind,setWind] = useState(false);
 
-        textAlign: 'center',
 
-        paddingTop: '40px',
-      }}
-    >
-      <h1>RITUAL SYNTH</h1>
-      <button onClick={start}>START RITUAL</button>
-      <div
-        style={{
-          height: '350px',
 
-          display: 'flex',
+async function start(){
 
-          justifyContent: 'center',
+await Tone.start();
 
-          alignItems: 'center',
-        }}
-      >
-        {fire && (
-          <img
-            src={fireGif}
-            style={{
-              width: '280px',
-
-              filter: 'drop-shadow(0 0 30px orange)',
-            }}
-          />
-        )}
-      </div>
-      <Keyboard setFire={setFire} />{' '}
-    </div>
-  );
 }
+
+
+
+
+return(
+
+<div className="app">
+
+
+<h1>
+ALTAR SYNTH
+</h1>
+
+
+<p className="subtitle">
+ведьминский ритуал на передвижение дедлайнов
+</p>
+
+
+
+<button
+className="start"
+onClick={start}
+>
+НАЧАТЬ РИТУАЛ
+</button>
+
+
+
+
+<div className="altar">
+
+
+{
+fire &&
+
+<img
+
+src="/fire.gif"
+
+className="fire"
+
+/>
+
+}
+
+
+{
+wind &&
+
+<div className="wind">
+〰 〰 〰
+</div>
+
+}
+
+
+</div>
+
+
+
+
+<Keyboard
+
+setFire={setFire}
+
+setWind={setWind}
+
+/>
+
+
+
+</div>
+
+)
+
+
+}
+
 
 export default App;
