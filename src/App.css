@@ -132,3 +132,36 @@ background:#7a3d12;
 border-color:#d68a3a;
 
 }
+.effects{
+
+display:flex;
+
+justify-content:center;
+
+gap:50px;
+
+margin-bottom:30px;
+
+}
+
+
+.effects label{
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+font-size:14px;
+
+letter-spacing:3px;
+
+}
+
+
+.effects input{
+
+width:160px;
+
+}
