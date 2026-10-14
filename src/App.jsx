@@ -1,5 +1,4 @@
 import { useState } from "react";
-import * as Tone from "tone";
 
 import Keyboard from "./components/Keyboard.jsx";
 
@@ -12,15 +11,6 @@ function App(){
 const [fire,setFire] = useState(false);
 
 const [wind,setWind] = useState(false);
-
-
-
-async function start(){
-
-await Tone.start();
-
-}
-
 
 
 
@@ -40,12 +30,9 @@ ALTAR SYNTH
 
 
 
-<button
-className="start"
-onClick={start}
->
-НАЧАТЬ РИТУАЛ
-</button>
+<p className="hint">
+нажмите 2 для начала ритуала
+</p>
 
 
 
@@ -67,17 +54,20 @@ className="fire"
 }
 
 
+
 {
 wind &&
 
 <div className="wind">
-〰 〰 〰
+
 </div>
 
 }
 
 
+
 </div>
+
 
 
 
@@ -95,7 +85,6 @@ setWind={setWind}
 </div>
 
 )
-
 
 }
 
