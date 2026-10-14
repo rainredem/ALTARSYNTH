@@ -3,15 +3,19 @@ import { useState } from "react";
 import Keyboard from "./components/Keyboard.jsx";
 
 import {
-reverb,
-delay,
-masterFilter
+  reverb,
+  delay,
+  masterFilter
 } from "./audio/engine.js";
 
 import "./App.css";
 
 
 function App(){
+
+
+const [fire,setFire] = useState(false);
+
 
 
 function changeReverb(e){
@@ -41,7 +45,6 @@ e.target.value;
 
 
 
-
 return(
 
 <div className="app">
@@ -58,7 +61,37 @@ ALTAR SYNTH
 
 
 
-<div className="controls">
+<p className="hint">
+нажмите 2 для начала ритуала
+</p>
+
+
+
+
+<div className="altar">
+
+
+{
+fire &&
+
+<img
+
+src="/fire.gif"
+
+className="fire"
+
+/>
+
+}
+
+
+</div>
+
+
+
+
+
+<div className="effects">
 
 
 <label>
@@ -85,6 +118,7 @@ onChange={changeReverb}
 
 
 
+
 <label>
 
 DELAY
@@ -106,6 +140,7 @@ onChange={changeDelay}
 />
 
 </label>
+
 
 
 
@@ -134,7 +169,12 @@ onChange={changeFilter}
 
 
 
-<Keyboard />
+
+<Keyboard
+
+setFire={setFire}
+
+/>
 
 
 
@@ -143,6 +183,9 @@ onChange={changeFilter}
 )
 
 }
+
+
+export default App;
 
 
 export default App;
