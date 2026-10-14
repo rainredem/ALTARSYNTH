@@ -4,7 +4,6 @@ import "./App.css";
 
 function App(){
 
-
 return(
 
 <div className="app">
@@ -18,7 +17,6 @@ ALTAR SYNTH
 <p className="subtitle">
 ведьминский ритуал на передвижение дедлайнов
 </p>
-
 
 
 <p className="hint">
@@ -38,7 +36,6 @@ className="fire"
 />
 
 </div>
-
 
 
 
