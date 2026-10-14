@@ -8,7 +8,6 @@ return(
 
 <div className="app">
 
-
 <h1>
 ALTAR SYNTH
 </h1>
@@ -24,7 +23,6 @@ ALTAR SYNTH
 </p>
 
 
-
 <div className="altar">
 
 <img
@@ -38,9 +36,7 @@ className="fire"
 </div>
 
 
-
 <Keyboard />
-
 
 </div>
 
