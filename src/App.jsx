@@ -2,15 +2,43 @@ import { useState } from "react";
 
 import Keyboard from "./components/Keyboard.jsx";
 
+import {
+reverb,
+delay,
+masterFilter
+} from "./audio/engine.js";
+
 import "./App.css";
 
 
 function App(){
 
 
-const [fire,setFire] = useState(false);
+function changeReverb(e){
 
-const [wind,setWind] = useState(false);
+reverb.wet.value =
+e.target.value;
+
+}
+
+
+
+function changeDelay(e){
+
+delay.wet.value =
+e.target.value;
+
+}
+
+
+
+function changeFilter(e){
+
+masterFilter.frequency.value =
+e.target.value;
+
+}
+
 
 
 
@@ -30,55 +58,83 @@ ALTAR SYNTH
 
 
 
-<p className="hint">
-нажмите 2 для начала ритуала
-</p>
+<div className="controls">
+
+
+<label>
+
+REVERB
+
+<input
+
+type="range"
+
+min="0"
+
+max="1"
+
+step="0.01"
+
+defaultValue="0.5"
+
+onChange={changeReverb}
+
+/>
+
+</label>
 
 
 
+<label>
 
-<div className="altar">
+DELAY
 
+<input
 
-{
-fire &&
+type="range"
 
-<img
+min="0"
 
-src="/fire.gif"
+max="1"
 
-className="fire"
+step="0.01"
+
+defaultValue="0.3"
+
+onChange={changeDelay}
 
 />
 
-}
+</label>
 
 
 
-{
-wind &&
+<label>
 
-<div className="wind">
+FILTER
 
-</div>
+<input
 
-}
+type="range"
 
+min="500"
 
+max="5000"
 
-</div>
+defaultValue="2500"
 
-
-
-
-
-<Keyboard
-
-setFire={setFire}
-
-setWind={setWind}
+onChange={changeFilter}
 
 />
+
+</label>
+
+
+</div>
+
+
+
+<Keyboard />
 
 
 
